@@ -11,7 +11,7 @@ Creation:	02-Mar-2024
 ================================================================
 Modification History    
 Author		Date		Description of change    
-
+Sultan      11-Mar-24   Sending configuration to RabbitMQ Consumer
 ================================================================    
 Missing:    
 
@@ -31,7 +31,7 @@ namespace MyRMQCon
                     // Host
                     services.AddHostedService<ConsumerHost>();
                     // RabbitMQ
-                    services.AddSingleton<IRabbitMQConsumer, RabbitMQConsumer>(i => new RabbitMQConsumer(config["RMQ:HostName"], config["RMQ:Port"], config["RMQ:UserName"], config["RMQ:Password"], config["RMQ:Exchange"], config["RMQ:Type"], config["RMQ:Queue"], config["RMQ:FetchSize"]));
+                    services.AddSingleton<IRabbitMQConsumer, RabbitMQConsumer>(i => new RabbitMQConsumer(config));
                 })
                 .Build()
                 .Run();

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -11,7 +12,7 @@ Creation:	02-Mar-2024
 ================================================================
 Modification History    
 Author		Date		Description of change    
-
+Sultan      11-Mar-24   Ctor receiving the configuration
 ================================================================    
 Missing:    
 
@@ -38,20 +39,17 @@ namespace MyRMQCon.RMQ
         /// <summary>
         /// Ctor receives the connection parameter
         /// </summary>
-        /// <param name="hostName"></param>
-        /// <param name="port"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        public RabbitMQConsumer(string hostName, string port, string userName, string password, string exchange, string type, string queue, string fetchSize)
+        /// <param name="config"></param>
+        public RabbitMQConsumer(IConfiguration config)
         {
-            HostName = hostName;
-            Port = Convert.ToInt32(port);
-            UserName = userName;
-            Password = password;
-            Exchange = exchange;
-            Type = type;
-            Queue = queue;
-            FetchSize = Convert.ToUInt16(fetchSize);
+            HostName = config["RMQ:HostName"];
+            Port = config.GetValue<int>("RMQ:Port");
+            UserName = config["RMQ:UserName"];
+            Password = config["RMQ:Password"];
+            Exchange = config["RMQ:Exchange"];
+            Type = config["RMQ:Type"];
+            Queue = config["RMQ:Queue"];
+            FetchSize = config.GetValue<ushort>(config["RMQ:FetchSize"]);
         }
         public void ReceiveMessage(Func<string, bool> callback)
         {
