@@ -100,8 +100,8 @@ namespace MyRMQCon.RMQ
                     //Rejecting and requeuing (requeue starts processing after reaching the fetch count for current fetch)
                     _channel.BasicReject(eventArgs.DeliveryTag, true);
                 }
-            };
-            //We are not auto acknowledging (autoAck), rather on successfull cosnume we'll do that on each Invoke            
+            };            
+            //We are not auto acknowledging (autoAck), rather on successful consume we'll do that on each Invoke 
             _channel.BasicConsume(queue: Queue, autoAck: false, consumer: consumer);
         }
         protected virtual void Dispose(bool disposing)
