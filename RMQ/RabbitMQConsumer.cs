@@ -97,7 +97,7 @@ namespace MyRMQCon.RMQ
                 }
                 else
                 {
-                    //Rejecting and requeueing (requeue starts processing after reaching the fetch count for current fetch)
+                    //Rejecting and requeuing (requeue starts processing after reaching the fetch count for current fetch)
                     _channel.BasicReject(eventArgs.DeliveryTag, true);
                 }
             };
