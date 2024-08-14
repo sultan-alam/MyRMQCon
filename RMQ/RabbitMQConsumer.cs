@@ -13,6 +13,7 @@ Creation:	02-Mar-2024
 Modification History    
 Author		Date		Description of change    
 Sultan      11-Mar-24   Ctor receiving the configuration
+Sultan      14-Aug-24   Implement Requeing on failure of processing data
 ================================================================    
 Missing:    
 
@@ -93,6 +94,11 @@ namespace MyRMQCon.RMQ
                     _channel.BasicAck(eventArgs.DeliveryTag, false);
                     Console.WriteLine($"Message Acknowledged.");
                     Thread.Sleep(1000);
+                }
+                else
+                {
+                    //Rejecting and requeueing (requeue starts processing after reaching the fetch count for current fetch)
+                    _channel.BasicReject(eventArgs.DeliveryTag, true);
                 }
             };
             //We are not auto acknowledging (autoAck), rather on successfull cosnume we'll do that on each Invoke            
